@@ -293,7 +293,7 @@ def search(query, tld='com', lang='en', tbs='0', safe='off', num=10, start=0,
         else:
             soup = BeautifulSoup(html)
         try:
-            anchors = soup.find(id='search').findAll('a')
+            # anchors = soup.find(id='search').findAll('a')
             g_results = soup.findAll('div.g')
             # Sometimes (depending on the User-agent) there is
             # no id "search" in html response
@@ -304,9 +304,11 @@ def search(query, tld='com', lang='en', tbs='0', safe='off', num=10, start=0,
                 gbar.clear()
             anchors = soup.findAll('a')
         # for a in anchors:
+        print(g_results)
         for g in g_results:
+            print('LC RESULT')
             a = g.find('a')
-
+            print(a)
             # Leave only the "standard" results if requested.
             # Otherwise grab all possible links.
             if only_standard and (
