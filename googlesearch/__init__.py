@@ -294,21 +294,16 @@ def search(query, tld='com', lang='en', tbs='0', safe='off', num=10, start=0,
             soup = BeautifulSoup(html)
         try:
             anchors = soup.find(id='search').findAll('a')
-            # g_results = soup.findAll('div.g')
             # Sometimes (depending on the User-agent) there is
             # no id "search" in html response
-        except AttributeError as e:
+        except AttributeError:
             # Remove links of the top bar
-            # console.log('LCS RESULT', e)
             gbar = soup.find(id='gbar')
             if gbar:
                 gbar.clear()
             anchors = soup.findAll('a')
-        # for g in g_results:
         for a in anchors:
-            # print('LC RESULT')
-            # a = g.find('a')
-            # print(a)
+
             # Leave only the "standard" results if requested.
             # Otherwise grab all possible links.
             if only_standard and (
@@ -332,13 +327,8 @@ def search(query, tld='com', lang='en', tbs='0', safe='off', num=10, start=0,
                 continue
             hashes.add(h)
 
-            res = {
-                "link": link,
-                # "description": g.find('.s').text,
-                "title": a.text
-            }
             # Yield the result.
-            yield res
+            yield a.text
 
             count += 1
             if stop and count >= stop:
