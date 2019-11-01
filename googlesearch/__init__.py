@@ -328,7 +328,7 @@ def search(query, tld='com', lang='en', tbs='0', safe='off', num=10, start=0,
             hashes.add(h)
 
             # Yield the result.
-            yield a.text
+            yield link
 
             count += 1
             if stop and count >= stop:
