@@ -294,6 +294,7 @@ def search(query, tld='com', lang='en', tbs='0', safe='off', num=10, start=0,
             soup = BeautifulSoup(html)
         try:
             anchors = soup.find(id='search').findAll('a')
+            g_results = soup.findAll('div.g')
             # Sometimes (depending on the User-agent) there is
             # no id "search" in html response
         except AttributeError:
@@ -302,7 +303,9 @@ def search(query, tld='com', lang='en', tbs='0', safe='off', num=10, start=0,
             if gbar:
                 gbar.clear()
             anchors = soup.findAll('a')
-        for a in anchors:
+        # for a in anchors:
+        for g in g_results:
+            a = g.find('a')
 
             # Leave only the "standard" results if requested.
             # Otherwise grab all possible links.
@@ -327,8 +330,13 @@ def search(query, tld='com', lang='en', tbs='0', safe='off', num=10, start=0,
                 continue
             hashes.add(h)
 
+            res = {
+                "link": link,
+                "description": g.find('.s').text,
+                "title": g.find('h3').text
+            }
             # Yield the result.
-            yield link
+            yield res
 
             count += 1
             if stop and count >= stop:
