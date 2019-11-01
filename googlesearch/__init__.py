@@ -297,8 +297,9 @@ def search(query, tld='com', lang='en', tbs='0', safe='off', num=10, start=0,
             g_results = soup.findAll('div.g')
             # Sometimes (depending on the User-agent) there is
             # no id "search" in html response
-        except AttributeError:
+        except AttributeError as e:
             # Remove links of the top bar
+            console.log('LCS RESULT', e)
             gbar = soup.find(id='gbar')
             if gbar:
                 gbar.clear()
